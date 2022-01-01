@@ -1,0 +1,92 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+:root{
+    --hue-neutral: 200;
+    --hue-wrong: 0;
+    --hue-correct: 145;
+}
+
+body{
+    --hue: var(--hue-neutral);
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: hsl(var(--hue), 100%, 20%);
+}
+
+body.correct{
+    --hue: var(--hue-correct);
+}
+
+body.wrong{
+    --hue: var(--hue-wrong);
+}
+
+.container{
+    min-width:25vw;
+    max-width: 80vw;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    padding: 2%;
+    box-shadow: 0 0 10px 2px;
+}
+
+.btn-grid{
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+    margin: 5% 0;
+}
+
+.btn {
+    --hue: var(--hue-neutral);
+    background-color: hsl(var(--hue), 100%, 50%);
+    border: 1px solid hsl(var(--hue), 100%, 30%);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: whitesmoke;
+    outline: none;
+}
+
+.btn:hover{
+    padding: 4px 9px ;
+    border: 2px solid black;
+}
+
+.btn.correct{
+    --hue: var(--hue-correct);
+    background-color: hsl(var(--hue), 100%, 50%);
+    color: black;
+
+}
+.btn.wrong{
+    --hue: var(--hue-wrong);
+    background-color: hsl(var(--hue), 100%, 50%);
+}
+
+.start-button, .submit-button{
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+.start-button:hover, .submit-button:hover{
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 9px 19px;
+}
+
+.buttonControls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hide{
+    display: none;
+}
