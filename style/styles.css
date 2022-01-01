@@ -64,7 +64,6 @@ body.wrong{
     --hue: var(--hue-correct);
     background-color: hsl(var(--hue), 100%, 50%);
     color: black;
-
 }
 .btn.wrong{
     --hue: var(--hue-wrong);

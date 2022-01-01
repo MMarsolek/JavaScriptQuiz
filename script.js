@@ -8,19 +8,18 @@
     var objPointer = 0;
     var correctAnswers = 0;
 
-    var questionObject = createQuizObject();
+    var questionObject;
+
     startButton.addEventListener("click", startQuiz);
-    
     submitButton.addEventListener("click", displayQuestion);
 
     function startQuiz() {
+        objPointer = 0;
         startButton.classList.add('hide');
         questionContainer.classList.remove('hide');
+        questionObject = createQuizObject();
         questionObject = questionObject.sort(() => Math.random() - .5);
-        currentQuestionIndex = 0;
-        submitButton.classList.remove('hide');
         displayQuestion();
-
     }
 
     function resetState() {
@@ -31,7 +30,7 @@
 
     function displayQuestion(){
         resetState() 
-        const curQuestionObj =  questionObject[objPointer];
+        const curQuestionObj =  questionObject[objPointer]; 
         question.innerText = curQuestionObj.question;
         if (curQuestionObj.questionType == 'multiple') {
             userInput.classList.add('hide');
@@ -52,27 +51,39 @@
             multipleChoice.classList.add('hide');
             userInput.classList.remove('hide');
             userInput.addEventListener('change',  (event) => {
-                curQuestionObj.answers.answerText = event.target.value;
+                selectAnswer(event);
             });
         }
-        objPointer++;
+    }
+
+    function results() {
+        startButton.innerText = 'Restart';
+        startButton.classList.remove('hide');
     }
 
     function selectAnswer(event) {
         const selectedButton = event.target;
         const correct = selectedButton.dataset.correct;
-        setStatusClass(document.body, correct);
-        Array.from(multipleChoice.children).forEach(button => {
-            setStatusClass(button, button.dataset.correct);
-        });
+        setStatusClass(document.body, correct, selectedButton);
+        objPointer++;
+        if(questionObject.length > objPointer+1){
+            submitButton.classList.remove('hide');
+        }else{
+            submitButton.classList.add('hide');
+            results();
+        }
     }
 
-    function setStatusClass(element, isCorrect) {
+    function setStatusClass(element, isCorrect, clickedButton) {
         clearStatusClass(element);
         if(isCorrect){
             element.classList.add("correct");
-        }else{
+            clickedButton.classList.add("correct");
+            document.getElementById("correctSound").play();
+        } else {
+            clickedButton.classList.add("wrong");
             element.classList.add("wrong");
+            document.getElementById("wrongSound").play();
         }
     }
 
