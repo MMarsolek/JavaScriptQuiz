@@ -9,7 +9,7 @@
     --hue-correct: 145;
 }
 
-body{
+body, body.neutral {
     --hue: var(--hue-neutral);
     padding: 0;
     margin: 0;
@@ -20,7 +20,6 @@ body{
     align-items: center;
     background-color: hsl(var(--hue), 100%, 20%);
 }
-
 body.correct{
     --hue: var(--hue-correct);
 }
@@ -30,8 +29,8 @@ body.wrong{
 }
 
 .container{
-    min-width:25vw;
-    max-width: 80vw;
+    width: 75vw;
+    height: 75vh;
     background-color: whitesmoke;
     border-radius: 5px;
     padding: 2%;
@@ -88,4 +87,8 @@ body.wrong{
 }
 .hide{
     display: none;
+}
+
+#userInput{
+    margin: auto;
 }
