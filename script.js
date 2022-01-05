@@ -4,12 +4,11 @@ var multipleChoice = document.querySelector("#answerList");
 const startButton = document.getElementById('start-button')
 const nextButton = document.getElementById('next-button');
 const questionContainer = document.getElementById('question-container');
+var resultsButton = document.querySelector('.resultsButton');
 var correct = 0;
 var wrong = 0;
 var objPointer = 0;
 var correctAnswers = 0;
-var resultPage = document.querySelector(".results");
-var userName;
 var timer = document.querySelector('.timer');
 var timeBox = document.querySelector('.time-container');
 startButton.addEventListener("click", startQuiz);
@@ -46,19 +45,19 @@ function displayQuestion(){
         multipleChoice.classList.remove('hide');
         multipleChoice.style.display='grid';
         curQuestionObj.answers.forEach(answer => {
-            button = document.createElement('button');
-            button.innerHTML =  answer.answerText;
-            multipleChoice.appendChild(button);
-            button.classList.add('btn');
-            if(answer.correct){
-                button.dataset.correct = answer.correct;
-            }
-            button.addEventListener('click', (event) => {
-                const correct = event.target.dataset.correct;
-                setStatusClass(document.body, correct, event.target);
-                nextQuestion();
-            });
+        button = document.createElement('button');
+        button.innerHTML =  answer.answerText;
+        multipleChoice.appendChild(button);
+        button.classList.add('btn');
+        if(answer.correct){
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener('click', (event) => {
+            const correct = event.target.dataset.correct;
+            setStatusClass(document.body, correct, event.target);
+            nextQuestion();
         });
+    });
     }
     else{
         nextButton.classList.remove('hide');
@@ -70,48 +69,18 @@ function displayQuestion(){
 
 function resetPage() {
     questionContainer.classList.add('hide');
-    resultPage.classList.remove('hide');
     document.body.classList.remove('correct');
     document.body.classList.remove('wrong');
     document.body.classList.add('neutral');
 }
 
-function results() {
-    resetPage();
-    console.log("In result");
-    var button = document.createElement('button');
-    button.innerText = "Submit"
-    button.classList.add('btn');
-    var userNameInput = document.createElement('input');
-    var lb = document.createElement('label');
-    lb.textContent = "Input your name";
-    userNameInput.type = "text";
-    userNameInput.appendChild(lb);
-    resultPage.appendChild(userNameInput);
-    resultPage.appendChild(button);
-    button.setAttribute('margin', '20px');
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-        userName = userNameInput.value;
-        console.log(userName);
-        scoreTracker();
-
-    })
-}
-
 function scoreTracker(){
-    var score = Math.floor((wrong/(wrong + correct)) * 100);
-    var stored = localStorage.getItem('leaderBoard');
-    if (stored == undefined) {
-        stored = [];
-    } else {
-        stored = JSON.parse(stored);
-    }
-    stored.push({
-        name: userName,
-        score: score
-    });
-   localStorage.setItem('leaderBoard', JSON.stringify(stored));
+    var score = 100 - Math.floor((wrong/(wrong + correct)) * 100);
+  var  stored = {
+        score: score,
+        time: timerCounter
+    };
+   localStorage.setItem('scoreTracker', JSON.stringify(stored));
 }
 
 function inputAnswerIsCorrect(givenAnswer, questionObject) {
@@ -181,14 +150,21 @@ function endOfQuiz() {
     if (((correct+wrong) == questionObject.length)){
         clearTimeout(timeOut);
         timeOut = null;
-        results();
+        resultsButton.classList.remove('hide');
     } else if(timerCounter == 0) {
         console.log("In endOfQuiz");
         timer.classList.add('hide');
         timeBox.textContent = "Times Up!!";
-        results();
+        resultsButton.classList.remove('hide');
     }
 }
+
+resultsButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    resetPage();
+    window.location.href="results.html";
+    scoreTracker();
+})
 
 var questionObject = [{
     question: "How can generic objects be created?",
@@ -248,12 +224,12 @@ var questionObject = [{
             {answerText: "They are the same", correct: false},
             {answerText: "\“==\” assigns a new value, whereas \“===\” checks if the two variables are different.", correct: false}
         ]
-    },
-    {
-        question: "What would be the result of 3+2+\”7\″?",
-        questionType: "userInput",
-        correctAnswer: 57,
-        answers: {answerText: "", correct: false}
+    // },
+    // {
+    //     question: "What would be the result of 3+2+\”7\″?",
+    //     questionType: "userInput",
+    //     correctAnswer: 57,
+    //     answers: {answerText: "", correct: false}
     }
 ]
 
