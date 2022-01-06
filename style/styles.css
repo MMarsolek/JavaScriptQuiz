@@ -9,8 +9,6 @@
     --correct: #003E1F;
     --light: #f1eeef;
     --accent: #1e6f8c;
-
-
 }
 
 body, body.neutral {
@@ -32,16 +30,17 @@ body.wrong{
 }
 
 .container{
-    width: 50vw;
-    height: 50vh;
+    min-width: 50vw;
+    max-width: 50vw;
+    min-height: 50vh;
     background-color: var(--light);
     color: var(--neutral);
     border-radius: 5px;
     padding: 2%;
     box-shadow: 0 0 10px 2px;
     position: relative;
+    justify-content: center;
 }
-
 
 .btn-grid{
     display: grid;
@@ -51,12 +50,9 @@ body.wrong{
     justify-content: center;
 }
 
-
-
-
 .btn:hover, .resultsButton{
     padding: 4px 9px ;
-    border: 2px solid black;
+    border: 2px solid var(--neutral);
 }
 
 .btn.correct, .resultsButton{
@@ -101,6 +97,8 @@ body.wrong{
 }
 
 .results-container{
+    max-width: 70vw;
+    min-width: 70vw;
     min-height: 60vh;
     max-height: 60vh;
     background-color:  var(--light);
@@ -112,7 +110,7 @@ body.wrong{
     flex-direction: column;
     flex-wrap: wrap;
     border-radius: 5px;
-    padding: 2%;
+    padding: 1%;
     box-shadow: 0 0 10px 2px;
     position: relative;
 }
@@ -132,24 +130,17 @@ body.wrong{
     min-height: max-content;
 }
 
-.resultsButton{
-    flex-grow: 1;
-    margin: auto;
-    position: relative;
-    justify-self: center;
-    align-content: center;
-}
-
 .score-title, #question{
     justify-self: flex-start;
     flex-grow: 1 ;
-    margin-bottom: 0;
-    padding-bottom: 0;
+    /* margin-bottom: 0;
+    padding-bottom: 0; */
 }
 #question{
     margin-top: 3%;
     padding: 2% 2%;
 }
+
 .hide{
     display: none;
 }
@@ -173,6 +164,7 @@ body.wrong{
 }
 
 
+
 @media screen and (max-width: 1000px) {
     .container{
         width: 75vw;
@@ -181,27 +173,20 @@ body.wrong{
     .btn,.time-container, .resultsButton{
         font-size: 30px;
     }
-    .results-container li{
+    .results-container, .results-container li{
         padding: 5px, 2px;
         font-size: 1.5rem;
-        
+        flex-wrap: wrap;
     }
-}
-
-@media screen and (max-width: 500px){
-    .container, .results-container{
-        width: 99vw;
-        height: 99vh;
+    .restart-button, .add-button{
+        padding: 5px;
+        margin-left: 15%;
+        margin-right: 15%;
+        margin-top: 1%;
     }
-    body{
-        background-color: #990100;
-    }
-    .btn, .time-container, .resultsButton{
-        font-size: 30px;
-    }
-    .results-container li{
-        padding: 5px, 2px;
-        font-size: 20px;
+    .result-label{
+        margin-left:10%;
+        margin-right:10%;
     }
 }
 
