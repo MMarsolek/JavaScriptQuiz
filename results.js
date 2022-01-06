@@ -51,7 +51,7 @@ function displayResults(leaderBoard) {
         if(e.name == userNameInput.value) {
             document.querySelector('.scores').textContent = 'You are number ' + (i+1); 
         }
-        li.textContent = (`${e.name} had ${e.time} seconds left got ${e.score} percent correct`);
+        li.textContent = (`${e.name} had ${e.time} seconds left and got ${e.score}% correct`);
         scoreList.appendChild(li);
         if (i>=10){
             i = leaderBoard.length;
