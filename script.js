@@ -39,12 +39,11 @@ function displayQuestion(){
     resetState(); 
     const curQuestionObj =  questionObject[objPointer]; 
     question.innerText = curQuestionObj.question;
-    if (curQuestionObj.questionType == 'multiple') {
-        nextButton.classList.add('hide');
-        userInput.classList.add('hide');
-        multipleChoice.classList.remove('hide');
-        multipleChoice.style.display='grid';
-        curQuestionObj.answers.forEach(answer => {
+    nextButton.classList.add('hide');
+    userInput.classList.add('hide');
+    multipleChoice.classList.remove('hide');
+    multipleChoice.style.display='grid';
+    curQuestionObj.answers.forEach(answer => {
         button = document.createElement('button');
         button.innerHTML =  answer.answerText;
         multipleChoice.appendChild(button);
@@ -53,18 +52,13 @@ function displayQuestion(){
             button.dataset.correct = answer.correct;
         }
         button.addEventListener('click', (event) => {
+            disableChildrenButtons(event.target);
             const correct = event.target.dataset.correct;
             setStatusClass(document.body, correct, event.target);
             nextQuestion();
         });
     });
-    }
-    else{
-        nextButton.classList.remove('hide');
-        multipleChoice.classList.add('hide');
-        userInput.classList.remove('hide');
-        nextButton.addEventListener('click', () => inputAnswerIsCorrect(userInput.value, curQuestionObj));
-    }
+    
 }
 
 function resetPage() {
@@ -104,6 +98,13 @@ function nextQuestion() {
     }
 }
 
+function disableChildrenButtons(button) {
+    var parent = button.parentElement;
+    parent.childNodes.forEach(element => {
+        element.disabled = true;
+    }); 
+}
+
 function setStatusClass(element, isCorrect, clickedButton) {
     clearStatusClass(element);
     if(isCorrect){
@@ -134,13 +135,14 @@ function startTimer() {
     timerCounter--;
     timeOut = setTimeout(startTimer, 1000);
     if(m==0&&s==0){
+        timerCounter = 0;
         endOfQuiz();
     }
 }
 
 function checkSecond(sec) {
     if (sec < 10 && sec >= 0)
-         {sec = "0" + sec}; // add zero in front of numbers < 10
+         {sec = "0" + sec}; 
     if (sec < 0) 
         {sec = "59"};
     return sec;
@@ -152,10 +154,12 @@ function endOfQuiz() {
         timeOut = null;
         resultsButton.classList.remove('hide');
     } else if(timerCounter == 0) {
-        console.log("In endOfQuiz");
+        var total = questionObject.length;
+        wrong = total-correct;
         timer.classList.add('hide');
         timeBox.textContent = "Times Up!!";
         resultsButton.classList.remove('hide');
+        disableChildrenButtons(document.querySelector('.btn'));
     }
 }
 
@@ -168,7 +172,6 @@ resultsButton.addEventListener('click', (event) => {
 
 var questionObject = [{
     question: "How can generic objects be created?",
-    questionType: "multiple",
     answers : [
         {answerText: "var I = new object()", correct: true},
         {answerText: "var = new object(I)", correct: false},
@@ -177,7 +180,6 @@ var questionObject = [{
     ]},
     {
         question: "What is event bubbling?",
-        questionType: "multiple",
         answers : [
             {answerText: "When one element of the DOM is clicked, it triggers another random DOM element.", correct: false},
             {answerText: "When one element is clicked, all DOM elements are activated regardless of their location in the DOM." , correct: false},
@@ -187,7 +189,6 @@ var questionObject = [{
     },
     {
         question: "True or False, you can have objects nested inside of arrays?",
-        questionType: "multiple",
         answers: [
             {answerText: "True", correct: true},
             {answerText: "False", correct: false}
@@ -195,7 +196,6 @@ var questionObject = [{
     },
     {
         question: "What is JavaScript?",
-        questionType: "multiple",
         answers: [
             {answerText: "JavaScript is a client-side and server-side scripting language inserted into HTML pages and is understood by web browsers.", correct: false},
             {answerText: "JavaScript is an Object-based Programming language.", correct: false},
@@ -206,7 +206,6 @@ var questionObject = [{
     },
     {
         question: "Which company developed JavaScript?",
-        questionType: "multiple",
         answers: [
             {answerText: "Sun Microsystems, Inc. is the software company that developed JavaScript.", correct: false},
             {answerText: "Bell Laboratories is the software company that developed JavaScript.", correct: false},
@@ -217,19 +216,12 @@ var questionObject = [{
     {
 
         question: "What is the difference between “==” and “===”?",
-        questionType: "multiple",
         answers: [
             {answerText: "\“===\” checks only for equality in value, whereas \“==\” is a stricter equality test and returns false if either the value or the type of the two variables are different.", correct: false},
             {answerText: "\“==\” checks only for equality in value, whereas \“===\” is a stricter equality test and returns false if either the value or the type of the two variables are different.", correct: true},
             {answerText: "They are the same", correct: false},
             {answerText: "\“==\” assigns a new value, whereas \“===\” checks if the two variables are different.", correct: false}
         ]
-    // },
-    // {
-    //     question: "What would be the result of 3+2+\”7\″?",
-    //     questionType: "userInput",
-    //     correctAnswer: 57,
-    //     answers: {answerText: "", correct: false}
     }
 ]
 

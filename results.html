@@ -7,14 +7,24 @@
         <script defer src = "results.js"></script>
     </head>
     <body>
-        <div class = "results-container container results">
-            <header class = 'score-title'>Top Ten</header>
+       
+        <div class = "results-container results">
+            <div class="modal hide">
+                <div class="modal-content">
+                    <button class="close-button">&times;</button>
+                    <p>Please enter a valid name.</p>
+                  </div>
+            </div>
+            <h1 class = 'score-title'>Top Ten</h1>
 
             <ul class='scores'>
 
             </ul>
-            <label class='result-label'>Add your name and score to the list! <input type="text" class="userInput">
-                <button class="btn add-button"> Add Score </button> </label>
+            <div class="result-footer">
+                <label class='result-label'>Add your name and score to the list! <input type="text" class="userInput"> </label>
+                <button class="btn add-button"> Add Score </button>
+                <button class="btn restart-button"> Restart </button> 
+            </div>
         </div>
     </body>
 </html>
