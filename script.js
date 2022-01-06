@@ -61,6 +61,8 @@ function displayQuestion(){
     
 }
 
+
+//Rests the page so that the background is a neutral color and the question container is hidden
 function resetPage() {
     questionContainer.classList.add('hide');
     document.body.classList.remove('correct');
@@ -68,6 +70,9 @@ function resetPage() {
     document.body.classList.add('neutral');
 }
 
+
+
+//Keeps track of the score and turns it into a percentage before adding it to local stoage
 function scoreTracker(){
     var score = 100 - Math.floor((wrong/(wrong + correct)) * 100);
   var  stored = {
@@ -77,6 +82,8 @@ function scoreTracker(){
    localStorage.setItem('scoreTracker', JSON.stringify(stored));
 }
 
+
+//Checks to see if the answer is correct
 function inputAnswerIsCorrect(givenAnswer, questionObject) {
     const correctAnswer = questionObject.correctAnswer;
     if (correctAnswer == givenAnswer) {
@@ -87,6 +94,8 @@ function inputAnswerIsCorrect(givenAnswer, questionObject) {
     nextQuestion();
 }
 
+
+//Moves the object point forward and makes sure the pointer is not pointing ar something undefined
 function nextQuestion() {
     objPointer++;
     if(questionObject.length >= objPointer+1){
@@ -98,6 +107,8 @@ function nextQuestion() {
     }
 }
 
+
+//Disables all the children of the given buttons parent
 function disableChildrenButtons(button) {
     var parent = button.parentElement;
     parent.childNodes.forEach(element => {
@@ -126,6 +137,8 @@ function clearStatusClass(element){
     element.classList.remove("correct");
 }
 
+
+//Creates the timer and formats the time to m:s and also calls the endOfQuiz function when the time runs out
 function startTimer() {
     var m = Math.floor(timerCounter / 60);
     var s = timerCounter % 60;
@@ -140,6 +153,7 @@ function startTimer() {
     }
 }
 
+//If the second displayed is a single digit, a zero is added to the front of it for formatting purposes.
 function checkSecond(sec) {
     if (sec < 10 && sec >= 0)
          {sec = "0" + sec}; 
@@ -148,6 +162,8 @@ function checkSecond(sec) {
     return sec;
   }
 
+
+  //Ends the current quiz and determines if it ended due to time out or if all the questions have been answered.
 function endOfQuiz() {
     if (((correct+wrong) == questionObject.length)){
         clearTimeout(timeOut);
@@ -163,6 +179,8 @@ function endOfQuiz() {
     }
 }
 
+
+//Adds an event listener to the resultsButton and changes the page that is currently being read to the correct HTML page.
 resultsButton.addEventListener('click', (event) => {
     event.preventDefault();
     resetPage();
@@ -221,6 +239,15 @@ var questionObject = [{
             {answerText: "\“==\” checks only for equality in value, whereas \“===\” is a stricter equality test and returns false if either the value or the type of the two variables are different.", correct: true},
             {answerText: "They are the same", correct: false},
             {answerText: "\“==\” assigns a new value, whereas \“===\” checks if the two variables are different.", correct: false}
+        ]
+    },
+    {
+        question: "What is does 'null' mean?",
+        answers: [
+            {answerText: "Nothing. It's a fake word.", correct: false},
+            {answerText: "Undefined", correct: false},
+            {answerText: "The number zero", correct: false},
+            {answerText: "An empty, nothing, or an unknown type of value.", correct: true}
         ]
     }
 ]
